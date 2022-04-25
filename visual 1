@@ -1,0 +1,39 @@
+Imports System
+Imports System.IO.Ports
+
+Public Class Form1
+    Dim myPorts As String
+    Private Sub Form1_load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Timer1.Enabled = False
+        myPorts = ""
+        For Each sp As String In My.Computer.Ports.SerialPortNames
+            CmbScanPort.Items.Add(sp)
+        Next
+
+        Panel1.Enabled = False
+        Panel2.Enabled = False
+
+    End Sub
+
+    Private Sub BtnCon_Click(sender As Object, e As EventArgs) Handles BtnCon.Click
+        SerialPort1.PortName = CmbScanPort.Text
+        SerialPort1.BaudRate = CmbBaud.Text
+        SerialPort1.Parity = Parity.None
+        SerialPort1.StopBits = StopBits.One
+        SerialPort1.Open()
+        BtnCon.Enabled = False
+        btnDiscon.Enabled = True
+        Panel1.Enabled = True
+        Panel2.Enabled = True
+        PictureBox1.BackColor = Color.Green
+    End Sub
+
+    Private Sub btnDiscon_Click(sender As Object, e As EventArgs) Handles btnDiscon.Click
+        SerialPort1.Close()
+        BtnCon.Enabled = True
+        btnDiscon.Enabled = False
+        Panel1.Enabled = False
+        Panel2.Enabled = False
+        PictureBox1.BackColor = Color.Red
+    End Sub
+End Class
